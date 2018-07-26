@@ -23,7 +23,7 @@ class Login extends Controller
 			
             $user = db('users')->where('user_name', $userName)->find();
             if(empty($user)){
-                return json(['code' => -1, 'data' => '', 'msg' => '客服不存在']);
+                return json(['code' => -1, 'data' => '', 'msg' => '专家不存在']);
             }
 
             if(md5($password . config('salt')) != $user['user_pwd']){
