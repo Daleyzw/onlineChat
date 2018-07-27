@@ -16,12 +16,12 @@ class Export extends ApiCommon
             }
 
             if(empty($param['group_id'])){
-                return ['code' => 300, 'data' => '', 'msg' => '请选择分组'];
+                return ['code' => 300, 'data' => '', 'error' => '请选择分组'];
             }
 
             $has = db('users')->field('id')->where('user_name', $param['user_name'])->find();
             if(!empty($has)){
-                return json(['code' => 300, 'data' => '', 'msg' => '该专家已经存在']);
+                return json(['code' => 300, 'data' => '', 'error' => '该专家已经存在']);
             }
 
             $param['user_pwd'] = md5($param['user_pwd'] . config('salt'));
@@ -33,7 +33,7 @@ class Export extends ApiCommon
                 return ['code' => 300, 'data' => '', 'error' => $e->getMessage()];
             }
 
-            return ['code' => 200, 'data' => ['export_id' => $lastInsID], 'msg' => '添加专家成功'];
+            return ['code' => 200, 'data' => ['export_id' => $lastInsID], 'error' => '添加专家成功'];
         }
 	}
 
