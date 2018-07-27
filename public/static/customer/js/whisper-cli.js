@@ -9,6 +9,7 @@ var sendLock = 0;
 var size = 1;
 // 是否显示默认的聊天记录
 var commChat = 1;
+var whisper_domain = 'http://192.168.2.148';
 
 // 连接服务器
 if(config != undefined && config.socket != undefined){

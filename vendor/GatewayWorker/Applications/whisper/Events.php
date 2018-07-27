@@ -158,6 +158,7 @@ class Events
                             'avatar' => $message['avatar'],
                             'ip' => isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '',
                             'group' => $message['group'],
+                            'kfid' =>  $message['kfid'],
                             'client_id' => $client_id
                         ];
 
@@ -188,7 +189,7 @@ class Events
                 Gateway::bindUid($client_id, $message['uid']);
 
                 // 尝试分配新会员进入服务
-                self::userOnlineTask($client_id, $message['group']);
+                self::userOnlineTask($client_id, $message['group'] ,  $message['kfid']);
                 break;
             // 聊天
             case 'chatMessage':
@@ -297,7 +298,7 @@ class Events
                 unset($NewUserList, $userList);
 
                 // 执行会员分配通知双方
-                self::userOnlineTask($userClient, $message['group']);
+                self::userOnlineTask($userClient, $message['group'],  $message['kfid']);
                 unset($userClient, $userGroup);
 
                 break;
@@ -524,12 +525,13 @@ class Events
      * @param $client_id
      * @param $group
      */
-    private static function userOnlineTask($client_id, $group)
+    private static function userOnlineTask($client_id, $group, $kfid)
     {
         // TODO 此处查询最大的可服务人数，后面可以用其他的方式，存储这个数值，让其更高效的访问
         $maxNumber = self::getMaxServiceNum();
 
-        $res = self::assignmentTask(self::$global->kfList, self::$global->userList, $group, $maxNumber);
+        //$res = self::assignmentTask(self::$global->kfList, self::$global->userList, $group, $maxNumber);
+        $res = self::assignmentExpertTask(self::$global->kfList, self::$global->userList, $group, $maxNumber, $kfid);
         unset($maxNumber);
 
         if(1 == $res['code']){
@@ -690,6 +692,72 @@ class Events
                 $kfList[$group][$flag]['id'],
                 $kfList[$group][$flag]['name'],
                 $kfList[$group][$flag]['client_id'],
+                $user,
+                $kfList,
+                $userList
+            ]
+        ];
+    }
+
+    /**
+     * 给客服分配会员【自定义分配】
+     * @param $kfList
+     * @param $userList
+     * @param $kfid
+     * @param $group
+     * @param $total
+     */
+    private static function assignmentExpertTask($kfList, $userList, $group, $total, $kfid)
+    {
+        // 客服没有上线
+        if(in_array($kfid, $kfList[$group])){
+            return ['code' => -1];
+        }
+
+        // 没有待分配的会员
+        if(empty($userList)){
+            return ['code' => -2];
+        }
+
+        // 未设置每个客服可以服务多少人
+        if(0 == $total){
+            return ['code' => -3];
+        }
+
+        // 查看该组的客服是否在线
+        if(!isset($kfList[$group])){
+            return ['code' => -1];
+        }
+
+        $kf_list = $kfList[$group];
+        $user = array_shift($userList);
+
+//        $kf = $kf_list[$kfid];
+//        $min = $kf['task'];
+//        $flag = $kf['id'];
+//
+//        foreach($kfList[$group] as $key=>$vo){
+//            if($vo['task'] < $min){
+//                $min = $vo['task'];
+//                $flag = $key;
+//            }
+//        }
+//        unset($kf);
+
+        // 需要排队了
+        if($kfList[$group][$kfid]['task'] == $total){
+            return ['code' => -4];
+        }
+
+        $kfList[$group][$kfid]['task'] += 1;
+        array_push($kfList[$group][$flag]['user_info'], $user['client_id']); // 被分配的用户信息
+
+        return [
+            'code' => 1,
+            'data' => [
+                $kfList[$group][$kfid]['id'],
+                $kfList[$group][$kfid]['name'],
+                $kfList[$group][$kfid]['client_id'],
                 $user,
                 $kfList,
                 $userList

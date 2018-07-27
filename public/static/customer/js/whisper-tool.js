@@ -21,7 +21,11 @@ var whisper = function(){
             alert("参数缺失");
             return false;
         }
-        var url = baseConfig.url ? baseConfig.url : baseConfig.whisper_domain + '/index/index/chat';
+        if(!baseConfig.url || baseConfig.url == '/') {
+            var url = baseConfig.whisper_domain + '/index/index/chat';
+        } else {
+            url = baseConfig.url;
+        }
         url += '?group=' + baseConfig.group + '&id=' + baseConfig.id + '&name=' + baseConfig.name + '&avatar=' + baseConfig.avatar;
 
         if(self.isMobile()){
