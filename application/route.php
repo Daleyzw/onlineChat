@@ -18,6 +18,8 @@ return [
     ],
     // 添加专家
     'api/export/create' => ['api/export/create', ['method' => 'POST']],
+    // 修改专家
+    'api/export/update' => ['api/export/update', ['method' => 'PUT']],
     // 删除专家
     'api/export/delete' => ['api/export/delete', ['method' => 'DELETE']],
     // 测试路由

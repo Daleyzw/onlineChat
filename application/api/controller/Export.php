@@ -9,11 +9,10 @@ class Export extends ApiCommon
         if(request()->isPost()){
 
             // $param = input('post.');
-            file_put_contents('test.json', json_encode($this->param));
-            return ['code' => 300, 'data' => '', 'msg' => '请上传头像'];
-            exit;
+            file_put_contents(RUNTIME_PATH . '/test.json', json_encode($this->param));
             // 检测头像
             if(empty($param['user_avatar'])){
+                $param['user_avatar'] = '/static/defalt-face.jpg';
             }
 
             if(empty($param['group_id'])){
@@ -27,7 +26,7 @@ class Export extends ApiCommon
 
             $param['user_pwd'] = md5($param['user_pwd'] . config('salt'));
             $param['online'] = 2; // 离线状态
-
+            $param['create_time'] = $param['update_time'] = time();
             try{
                 $lastInsID = db('users')->insert($param, false, true);
             }catch(\Exception $e){
@@ -37,4 +36,10 @@ class Export extends ApiCommon
             return ['code' => 200, 'data' => ['export_id' => $lastInsID], 'msg' => '添加专家成功'];
         }
 	}
+
+    // 修改专家
+    public function update()
+    {
+
+    }
 }
