@@ -29,7 +29,8 @@ class Index extends Controller
                 'id' => input('param.id'),
                 'name' => input('param.name'),
                 'group' => input('param.group'),
-                'avatar' => input('param.avatar')
+                'avatar' => input('param.avatar'),
+                'kfid' => input('param.kfid'),
             ]);
             $this->redirect('/index/index/mobile?' . $param);
         }
@@ -39,8 +40,9 @@ class Index extends Controller
             'name' => input('param.name'),
             'group' => input('param.group'),
             'avatar' => input('param.avatar'),
+            'kfid' => input('param.kfid'),
         ]);
-
+        
         return $this->fetch();
     }
 

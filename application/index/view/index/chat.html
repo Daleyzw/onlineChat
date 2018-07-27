@@ -1,6 +1,6 @@
-<html>
+﻿<html>
 <head>
-    <title>whisper客服客户端</title>
+    <title>客户端</title>
     <meta charset="utf-8"/>
     <link href="/static/customer/css/whisper.css" rel="stylesheet" type="text/css" />
     <link href="/static/service/js/layui/css/layui.css" rel="stylesheet" type="text/css"/>
@@ -9,9 +9,9 @@
 <div class="small-chat-box fadeInRight animated">
     <div class="heading" draggable="true">
         <small class="chat-date pull-right">
-            <a href="http://whisper.baiyf.com" target="_blank">whisper客服</a>
+            <a  target="_blank">专家</a>
         </small>
-        <span id="title">与 客服 交流中</span>
+        <span id="title">与 专家 交流中</span>
     </div>
     <div class="slimScrollDiv" style="position: relative; width: auto; height: 60%;" id="chat-content-box">
         <div class="content" style="width: auto; height: 92%;overflow: auto" id="chat-list">
@@ -43,9 +43,10 @@
         name: '{$name}',
         avatar: '{$avatar}',
         group: '{$group}',
+        kfid: '{$kfid}',
         socket: '{$socket}'
     };
-</script>
+console.log({$kfid})</script>
 <script src="/static/service/js/layui/layui.js"></script>
 <script src="/static/service/js/functions.js"></script>
 <script src="/static/customer/js/whisper-cli.js"></script>
