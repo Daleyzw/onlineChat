@@ -4,7 +4,7 @@ var whisper = function(){
     var baseConfig = {
         id: 0
         ,whisper_domain: ''
-        ,title: 'whisper客服'
+        ,title: '专家咨询'
         ,name: ''
         ,group: 0
         ,avatar: ''
