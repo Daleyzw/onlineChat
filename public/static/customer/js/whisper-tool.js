@@ -8,6 +8,7 @@ var whisper = function(){
         ,name: ''
         ,group: 0
         ,avatar: ''
+        ,kfid:1
     };
 
     var self = this;
@@ -22,7 +23,7 @@ var whisper = function(){
             return false;
         }
         var url = baseConfig.url ? baseConfig.url : baseConfig.whisper_domain + '/index/index/chat';
-        url += '?group=' + baseConfig.group + '&id=' + baseConfig.id + '&name=' + baseConfig.name + '&avatar=' + baseConfig.avatar;
+        url += '?group=' + baseConfig.group + '&id=' + baseConfig.id + '&name=' + baseConfig.name + '&avatar=' + baseConfig.avatar + '&kfid=' + baseConfig.kfid;
 
         if(self.isMobile()){
             window.location.href = url;
