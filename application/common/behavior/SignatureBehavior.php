@@ -17,6 +17,7 @@ class SignatureBehavior
 
     public function __construct()
     {
+        header('Content-Type:application/json; charset=utf-8');
         if ($this->timeOut === null ) {
             $this->timeOut = config('requestTimeOut');
         }
@@ -29,7 +30,6 @@ class SignatureBehavior
     public function run(&$content)
     {
         $params = $this->getParams();
-
         // 参数完整性验证
         if (!isset($params['_key'])
             || !isset($params['_sign'])
@@ -38,15 +38,17 @@ class SignatureBehavior
             || strlen($params['_nonce']) !== 32
             || !is_numeric($params['_time'])
         ) {
-            // exit('请求参数不全, 或参数不规范');
+
+            exit(json_encode(['code' => 101, 'data' => '', 'error' => '请求参数不全, 或参数不规范']));
         }
 
         if(Yii::$app->params['app_key'] !== $params['_key']) {
-             // exit('非法的app_key') ;
+            exit(json_encode(['code' => 101, 'data' => '', 'error' => '非法的app_key']));
         }
 
         if (!isset($params['_time']) || $this->getIsTimeOut($params['_time'])) {
-            // exit('请求超时') ;
+
+            exit(json_encode(['code' => 101, 'data' => '', 'error' => '请求超时']));
         }
 
         $requestSignature = $params['_sign'];
@@ -55,13 +57,15 @@ class SignatureBehavior
         $toSignString = $this->getNormalizedString($params);
         $signature = $this->getSignature($toSignString, Yii::$app->params['app_secret']);
         if ($requestSignature != $signature) {
-            // exit('签名错误') ;
+
+            exit(json_encode(['code' => 101, 'data' => '', 'error' => '签名错误']));
         }
 
         return true;
     }
 
-    protected function getParams() {
+    protected function getParams()
+    {
         if (!$this->_params) {
             $this->_params = Request::instance()->param(); //input('post.')
         }

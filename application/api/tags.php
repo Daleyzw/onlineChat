@@ -9,21 +9,22 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
+// 应用行为扩展定义文件
 return [
-    // MISS路由
-    // '__miss__'  => 'error/index/miss',
-    '[hello]'     => [
-        ':id'   => ['index/hello', ['method' => 'get'], ['id' => '\d+']],
-        ':name' => ['index/hello', ['method' => 'post']],
+    // 应用初始化
+    'app_init'     => [],
+    // 应用开始
+    'app_begin'    => [],
+    // 模块初始化
+    'module_init'  => [],
+    // 操作开始执行
+    'action_begin' => [
+        // "app\\common\\behavior\\SignatureBehavior"
     ],
-    // 添加专家
-    'api/export/create' => ['api/export/create', ['method' => 'POST']],
-    // 删除专家
-    'api/export/delete' => ['api/export/delete', ['method' => 'DELETE']],
-    // 测试路由
-    'api/index/test' => ['api/index/test', ['method' => 'GET']],
-    
-    '__pattern__' => [
-        'name' => '\w+',
-    ],
+    // 视图内容过滤
+    'view_filter'  => [],
+    // 日志写入
+    'log_write'    => [],
+    // 应用结束
+    'app_end'      => [],
 ];
