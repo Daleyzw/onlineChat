@@ -15,7 +15,7 @@ var whisper_domain = 'http://192.168.2.148';
 if(config != undefined && config.socket != undefined){
 
     // 创建一个Socket实例
-    console.log('socket config:', config);
+    // console.log('socket config:', config);
     try {
         var socket = new WebSocket('ws://' + config.socket);
     } catch (e) {
@@ -41,7 +41,7 @@ if(config != undefined && config.socket != undefined){
     // 监听消息
     socket.onmessage = function(res) {
         var data = eval("("+res.data+")");
-        console.log('data:', data);
+        // console.log('data:', data);
         switch(data['message_type']){
             // 服务端ping客户端
             case 'ping':
@@ -51,7 +51,7 @@ if(config != undefined && config.socket != undefined){
             case 'connect':
                 kf_id = data.data.kf_id;
                 kf_name = data.data.kf_name;
-                showSystem({content: data.data.kf_name + ' 为您服务'});
+                showSystem({content: data.data.kf_name + ' 与您沟通'});
                 document.getElementById('title').innerHTML = '与 ' + kf_name + ' 交流中';
                 if(1 == commChat){
                     showChatLog();
@@ -110,6 +110,14 @@ document.addEventListener("click",function(){
 });
 
 // 点击发送消息
+document.getElementById('msg').addEventListener('keydown', function(event) {
+    var e  = window.event || event;
+    if (e.keyCode == 13) {
+        e.preventDefault();  // 取消事件的默认动作
+        document.getElementById('send').click();
+    }
+});
+
 document.getElementById('send').onclick = function(){
     sendMsg();
     document.getElementById('msg').value = '';

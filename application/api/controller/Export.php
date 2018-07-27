@@ -9,10 +9,10 @@ class Export extends ApiCommon
         if(request()->isPost()){
 
             // $param = input('post.');
-            file_put_contents(RUNTIME_PATH . '/test.json', json_encode($this->param));
+            $param = $this->param;
             // 检测头像
             if(empty($param['user_avatar'])){
-                $param['user_avatar'] = '/static/defalt-face.jpg';
+                $param['user_avatar'] = '/static/default-face.jpg';
             }
 
             if(empty($param['group_id'])){
@@ -26,7 +26,9 @@ class Export extends ApiCommon
 
             $param['user_pwd'] = md5($param['user_pwd'] . config('salt'));
             $param['online'] = 2; // 离线状态
+            $param['status'] = 1;
             $param['create_time'] = $param['update_time'] = time();
+            file_put_contents(RUNTIME_PATH . '/test.json', json_encode($param));
             try{
                 $lastInsID = db('users')->insert($param, false, true);
             }catch(\Exception $e){
