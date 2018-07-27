@@ -8,6 +8,7 @@ var whisper = function(){
         ,name: ''
         ,group: 0
         ,avatar: ''
+        ,kfid:1
     };
 
     var self = this;
@@ -21,12 +22,15 @@ var whisper = function(){
             alert("参数缺失");
             return false;
         }
+
         if(!baseConfig.url || baseConfig.url == '/') {
             var url = baseConfig.whisper_domain + '/index/index/chat';
         } else {
             url = baseConfig.url;
         }
-        url += '?group=' + baseConfig.group + '&id=' + baseConfig.id + '&name=' + baseConfig.name + '&avatar=' + baseConfig.avatar;
+        //url += '?group=' + baseConfig.group + '&id=' + baseConfig.id + '&name=' + baseConfig.name + '&avatar=' + baseConfig.avatar;
+        var url = baseConfig.url ? baseConfig.url : baseConfig.whisper_domain + '/index/index/chat';
+        url += '?group=' + baseConfig.group + '&id=' + baseConfig.id + '&name=' + baseConfig.name + '&avatar=' + baseConfig.avatar + '&kfid=' + baseConfig.kfid;
 
         if(self.isMobile()){
             window.location.href = url;

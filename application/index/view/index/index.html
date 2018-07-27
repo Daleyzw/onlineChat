@@ -310,13 +310,16 @@
 
         var ws = new whisper();
         $("#buy-1,#buy-2").click(function(){
-            var group = $(this).attr('data-group');
+            // var group = $(this).attr('data-group');
+            var group = 3;
+            var kfid = 7;
             ws.init({
                 id: '{$uid}',
                 url: '/',
                 name: '{$uname}',
                 avatar: 'http://wx2.sinaimg.cn/mw690/5db11ff4gy1flxmew7edlj203d03wt8n.jpg',
-                group: group
+                group: group,
+                kfid: kfid
             });
         });
 
