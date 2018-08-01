@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>客服列表</title>
+    <title>专家列表</title>
     <link rel="shortcut icon" href="favicon.ico">
     <link href="__CSS__/bootstrap.min.css?v=3.3.6" rel="stylesheet">
     <link href="__CSS__/font-awesome.min.css?v=4.4.0" rel="stylesheet">
@@ -16,14 +16,14 @@
     <!-- Panel Other -->
     <div class="ibox float-e-margins">
         <div class="ibox-title">
-            <h5>客服列表</h5>
+            <h5>专家列表</h5>
         </div>
         <div class="ibox-content">
             <!--搜索框开始-->
             <form id='commentForm' role="form" method="post" class="form-inline pull-right">
                 <div class="content clearfix m-b">
                     <div class="form-group">
-                        <label>客服名称：</label>
+                        <label>专家名称：</label>
                         <input type="text" class="form-control" id="username" name="user_name">
                     </div>
                     <div class="form-group">
@@ -37,11 +37,11 @@
                 <div class="example">
                     <table id="cusTable">
                         <thead>
-                        <th data-field="id">客服ID</th>
-                        <th data-field="user_name">客服名称</th>
-                        <th data-field="user_avatar">客服头像</th>
+                        <th data-field="id">专家ID</th>
+                        <th data-field="user_name">专家名称</th>
+                        <th data-field="user_avatar">专家头像</th>
                         <th data-field="group">所属组别</th>
-                        <th data-field="status">客服状态</th>
+                        <th data-field="status">专家状态</th>
                         <!--<th data-field="online">是否在线</th>-->
                         <th data-field="operate">操作</th>
                         </thead>
@@ -67,7 +67,7 @@
         //初始化表格,动态从服务器加载数据
         $("#cusTable").bootstrapTable({
             method: "get",  //使用get请求到服务器获取数据
-            url: "{:url('users/index')}", //获取数据的地址
+            url: "{:url('users/expertise')}", //获取数据的地址
             striped: true,  //表格显示条纹
             pagination: true, //启动分页
             pageSize: 10,  //每页显示的记录数

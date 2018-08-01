@@ -252,3 +252,8 @@ CREATE TABLE `ws_words` (
 -- Records of ws_words
 -- ----------------------------
 INSERT INTO `ws_words` VALUES ('1', '欢迎来到whisper v1.0.0', '2017-10-25 12:51:09', '1');
+
+
+ALTER TABLE `ws_now_data` 
+ADD COLUMN `online_expert` INT(5) NOT NULL DEFAULT 0 COMMENT '在线专家' AFTER `online_kf`;
+

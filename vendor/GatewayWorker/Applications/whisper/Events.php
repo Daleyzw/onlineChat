@@ -247,7 +247,7 @@ class Events
                 // 从当前客服的服务表中删除这个会员
                 $old = $kfList = self::$global->kfList;
                 if(!isset($kfList[$userGroup])){
-                    $waitMsg = '暂时没有相关客服上班,请稍后再咨询。';
+                    $waitMsg = $message['group'] == 3 ? '暂时没有相关专家上班,请稍后再咨询。' : '暂时没有相关客服上班,请稍后再咨询。';
                     // 逐一通知
                     foreach(self::$global->userList as $vo){
 
@@ -799,6 +799,8 @@ class Events
 
         $nowTalking = 0;
         $onlineKf = 0;
+        $onlineExpret = 0; //在线专家数
+        file_put_contents('/var/www/lnmp/html/whisper/runtime/onlineTest.json', json_encode($kfList) . "\r\n", FILE_APPEND);
         if(!empty($kfList)){
 
             foreach($kfList as $key=>$vo){
