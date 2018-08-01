@@ -11,17 +11,9 @@ class Users extends Base
     // 客服列表
     public function index()
     {
-        $group_id = null;
         if(request()->isAjax()){
             $users = db('users');
-            if (!empty(input('param.group_id/d'))) {
-                $group_id = input('param.group_id/d');
-            }
-            if ($group_id) {
-                $where['group_id'] = ['eq', $group_id];
-            } else {
-                $where['group_id'] = ['neq', 3];
-            }
+            $where['group_id'] = ['<>', 3];
             $result = $users->where($where)->order('id', 'desc')->select();
             foreach($result as $key=>$vo){
                 // 优化显示头像
@@ -60,6 +52,50 @@ class Users extends Base
         }
 
         return $this->fetch();
+    }
+
+    // 专家列表
+    public function expertise()
+    {
+        if(request()->isAjax()){
+            $users = db('users');
+            $result = $users->where('group_id', 3)->order('id', 'desc')->select();
+            foreach($result as $key=>$vo){
+                // 优化显示头像
+                $result[$key]['user_avatar'] = '<img src="' . $vo['user_avatar'] . '" width="40px" height="40px">';
+
+                // 优化显示状态
+                if(1 == $vo['status']){
+                    $result[$key]['status'] = '<span class="label label-primary">启用</span>';
+                }else{
+                    $result[$key]['status'] = '<span class="label label-danger">禁用</span>';
+                }
+
+                // 查询分组
+                $result[$key]['group'] = '-';
+                $groups = db('groups')->field('name')->where('id', $vo['group_id'])->find();
+                if(!empty($groups)){
+                    $result[$key]['group'] = $groups['name'];
+                }
+
+                // 优化显示在线状态
+                /*if(1 == $vo['online']){
+                    $result[$key]['online'] = '<span class="label label-primary">在线</span>';
+                }else{
+                    $result[$key]['online'] = '<span class="label label-danger">离线</span>';
+                }*/
+
+                // 生成操作按钮
+                $result[$key]['operate'] = $this->makeBtn($vo['id']);
+            }
+
+            $return['total'] = db('users')->count();  //总数据
+            $return['rows'] = $result;
+            return json($return);
+
+        }
+
+        return $this->fetch('expertise');
     }
 
     // 添加客服

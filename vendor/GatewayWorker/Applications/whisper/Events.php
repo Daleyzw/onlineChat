@@ -126,7 +126,8 @@ class Events
                             'avatar' => $message['avatar'],
                             'client_id' => $client_id,
                             'task' => 0,
-                            'user_info' => []
+                            'user_info' => [],
+                            'group_id' => $message['group']
                         ];
                     }while(!self::$global->cas('kfList', $kfList, $newKfList));
                     unset($newKfList, $kfList);
@@ -247,7 +248,7 @@ class Events
                 // 从当前客服的服务表中删除这个会员
                 $old = $kfList = self::$global->kfList;
                 if(!isset($kfList[$userGroup])){
-                    $waitMsg = '暂时没有相关客服上班,请稍后再咨询。';
+                    $waitMsg = $message['group'] == 3 ? '暂时没有相关专家上班,请稍后再咨询。' : '暂时没有相关客服上班,请稍后再咨询。';
                     // 逐一通知
                     foreach(self::$global->userList as $vo){
 
@@ -799,6 +800,7 @@ class Events
 
         $nowTalking = 0;
         $onlineKf = 0;
+        $onlineExpret = 0; //在线专家数
         if(!empty($kfList)){
 
             foreach($kfList as $key=>$vo){
@@ -806,6 +808,9 @@ class Events
                 $onlineKf += count($vo);
                 foreach($vo as $k=>$v){
                     $nowTalking += count($v['user_info']);
+                    if($v['group_id'] == 3) {
+                        $onlineExpret += 1;
+                    }
                 }
             }
         }
@@ -819,6 +824,7 @@ class Events
             'is_talking' => $nowTalking,
             'in_queue' => $inQueue,
             'online_kf' => $onlineKf,
+            'online_expert' => $onlineExpret,
             'success_in' => self::$global->$key2,
             'total_in' => self::$global->$key,
             'now_date' => date('Y-m-d')
