@@ -373,6 +373,9 @@ function changeUserTab(obj) {
 // 添加用户到面板
 function addUser(data) {
 
+    if($('#f-'+data.id)){
+        return;
+    }
     var _html = '<li class="layui-nav-item" data-id="' + data.id + '" id="f-' + data.id +
         '" data-name="' + data.name + '" data-avatar="' + data.avatar + '" data-ip="' + data.ip + '">';
     _html += '<img src="' + data.avatar + '">';
