@@ -11,9 +11,18 @@ class Users extends Base
     // 客服列表
     public function index()
     {
+        $group_id = null;
         if(request()->isAjax()){
-
-            $result = db('users')->order('id', 'desc')->select();
+            $users = db('users');
+            if (!empty(input('param.group_id/d'))) {
+                $group_id = input('param.group_id/d');
+            }
+            if ($group_id) {
+                $where['group_id'] = ['eq', $group_id];
+            } else {
+                $where['group_id'] = ['neq', 3];
+            }
+            $result = $users->where($where)->order('id', 'desc')->select();
             foreach($result as $key=>$vo){
                 // 优化显示头像
                 $result[$key]['user_avatar'] = '<img src="' . $vo['user_avatar'] . '" width="40px" height="40px">';
@@ -85,9 +94,14 @@ class Users extends Base
 
             return json(['code' => 1, 'data' => '', 'msg' => '添加客服成功']);
         }
+        $group_id = null;
+        if (!empty(input('param.group_id/d'))) {
+            $group_id = input('param.group_id/d');
+        }
 
         $this->assign([
             'groups' => db('groups')->select(),
+            'group_id' => $group_id,
             'status' => config('kf_status')
         ]);
 

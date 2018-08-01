@@ -31,5 +31,26 @@ return [
     // 应用调试模式
     'app_debug'              => true,
     // 应用Trace
-    'app_trace'              => false
+    'app_trace'              => false,
+    // 应用模式状态
+    'app_status'             => '',
+    // 是否支持多模块
+    'app_multi_module'       => true,
+    // 入口自动绑定模块
+    'auto_bind_module'       => false,
+    // 注册的根命名空间
+    'root_namespace'         => [],
+    
+    // +----------------------------------------------------------------------
+    // | URL设置
+    // +----------------------------------------------------------------------    
+    'url_route_on'           => true,
+    // 路由配置文件（支持配置多个）
+    'route_config_file'      => ['route'],
+    // 是否强制使用路由
+    'url_route_must'         => false,
+    
+    'http_exception_template' => [
+        404 =>  APP_PATH . '\\error\\view\\404.html',
+    ],
 ];

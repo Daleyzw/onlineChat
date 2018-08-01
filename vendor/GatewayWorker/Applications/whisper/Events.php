@@ -752,7 +752,7 @@ class Events
         }
 
         $kfList[$group][$kfid]['task'] += 1;
-        array_push($kfList[$group][$flag]['user_info'], $user['client_id']); // 被分配的用户信息
+        array_push($kfList[$group][$kfid]['user_info'], $user['client_id']); // 被分配的用户信息
 
         return [
             'code' => 1,
