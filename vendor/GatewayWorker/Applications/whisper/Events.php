@@ -127,7 +127,7 @@ class Events
                             'client_id' => $client_id,
                             'task' => 0,
                             'user_info' => [],
-                            'group' => $message['group']
+                            'group_id' => $message['group']
                         ];
                     }while(!self::$global->cas('kfList', $kfList, $newKfList));
                     unset($newKfList, $kfList);
@@ -808,7 +808,7 @@ class Events
                 $onlineKf += count($vo);
                 foreach($vo as $k=>$v){
                     $nowTalking += count($v['user_info']);
-                    if($vo['group'] == 3) {
+                    if($vo['group_id'] == 3) {
                         $onlineExpret += 1;
                     }
                 }
