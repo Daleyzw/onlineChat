@@ -808,7 +808,7 @@ class Events
                 $onlineKf += count($vo);
                 foreach($vo as $k=>$v){
                     $nowTalking += count($v['user_info']);
-                    if($vo['group_id'] == 3) {
+                    if($v['group_id'] == 3) {
                         $onlineExpret += 1;
                     }
                 }
