@@ -126,7 +126,8 @@ class Events
                             'avatar' => $message['avatar'],
                             'client_id' => $client_id,
                             'task' => 0,
-                            'user_info' => []
+                            'user_info' => [],
+                            'group' => $message['group']
                         ];
                     }while(!self::$global->cas('kfList', $kfList, $newKfList));
                     unset($newKfList, $kfList);
@@ -800,7 +801,6 @@ class Events
         $nowTalking = 0;
         $onlineKf = 0;
         $onlineExpret = 0; //在线专家数
-        file_put_contents('/var/www/lnmp/html/whisper/runtime/onlineTest.json', json_encode($kfList) . "\r\n", FILE_APPEND);
         if(!empty($kfList)){
 
             foreach($kfList as $key=>$vo){
@@ -808,6 +808,9 @@ class Events
                 $onlineKf += count($vo);
                 foreach($vo as $k=>$v){
                     $nowTalking += count($v['user_info']);
+                    if($vo['group'] == 3) {
+                        $onlineExpret += 1;
+                    }
                 }
             }
         }
@@ -821,6 +824,7 @@ class Events
             'is_talking' => $nowTalking,
             'in_queue' => $inQueue,
             'online_kf' => $onlineKf,
+            'online_expert' => $onlineExpret,
             'success_in' => self::$global->$key2,
             'total_in' => self::$global->$key,
             'now_date' => date('Y-m-d')
