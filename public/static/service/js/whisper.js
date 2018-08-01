@@ -373,7 +373,7 @@ function changeUserTab(obj) {
 // 添加用户到面板
 function addUser(data) {
 
-    if($('#f-'+data.id)){
+    if($('#f-'+data.id).length){
         return;
     }
     var _html = '<li class="layui-nav-item" data-id="' + data.id + '" id="f-' + data.id +
